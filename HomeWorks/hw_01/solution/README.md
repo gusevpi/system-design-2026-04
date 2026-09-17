@@ -74,6 +74,7 @@ _Основные сервисы и их ответственности (5–10 
 
 #### Путь запроса:
 Rider App → API Gateway → Trip Service → Pricing Service → Trip Service (создание заказа) → Matching Service → Geo Service → Matching Service → Notification Service → Driver App → Trip Service → Rider App.
+![img.png](.\diagrams\Пассажир%20вызывает%20такси.png)
 
 #### Порядок и характер взаимодействия:
 * Пассажир отправляет запрос с координатами и тарифом — синхронно через API Gateway.
@@ -99,6 +100,7 @@ Rider App → API Gateway → Trip Service → Pricing Service → Trip Service 
 
 #### Путь запроса:
 Driver App → API Gateway → Geo Service → in-memory геоиндекс → Kafka → Analytics; Geo Service → Routing Service (для отображения на карте).
+![img.png](.\diagrams\Водитель%20транслирует%20свою%20геолокацию.png)
 
 #### Порядок и характер взаимодействия:
 * Водитель отправляет координаты каждые 2–4 секунды — синхронно через API Gateway.
@@ -119,6 +121,7 @@ Driver App → API Gateway → Geo Service → in-memory геоиндекс → 
 
 #### Путь запроса:
 Driver App → API Gateway → Trip Service → Pricing Service (финальный расчёт) → Payment Service → Trip Service → Kafka → Rider App (чек) + Kafka → Analytics.
+![img.png](.\diagrams\Завершение%20поездки.png)
 
 #### Порядок и характер взаимодействия:
 * Водитель завершает поездку — синхронно через API Gateway.
