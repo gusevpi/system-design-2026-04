@@ -72,7 +72,7 @@ C4Container
     
     %% Репликация и витрины
     Rel(pg_master, pg_replica, "Репликация", "WAL Streaming")
-    Rel(airflow, pg_replica, "Чтение", "JDBC")
+    Rel(airflow, pg_replica, "Чтение для наполнения витрины", "JDBC")
     Rel(airflow, pg_dm, "Запись витрин", "JDBC")
     Rel(report, pg_dm, "Чтение отчетов", "JDBC")
 ```
