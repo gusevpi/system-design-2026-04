@@ -33,4 +33,44 @@ C4Container
         ContainerDb(pg_dm, "PostgreSQL 19 (Data Marts)", "PostgreSQL", "Отдельная БД для витрин и отчетов")
         ContainerDb(redis, "Redis", "Redis", "Кэш профилей")
     }
+
+    %% Взаимодействия с внешними системами
+    Rel(operator, gateway, "Запросы", "HTTPS/REST")
+    Rel(foiv, gateway, "SOAP / REST", "HTTPS")
+    Rel(foiv, artemis_ext, "JMS", "JMS")
+    
+    %% Шлюз
+    Rel(gateway, artemis_ext, "Публикация событий", "JMS")
+    Rel(gateway, report, "Маршрутизация", "REST")
+    Rel(gateway, airflow, "Триггер DAG", "REST")
+    
+    %% Обработка очередей
+    Rel(artemis_ext, int_ingestion, "Вычитка", "JMS")
+    Rel(int_ingestion, artemis_int, "Публикация", "JMS")
+    
+    Rel(artemis_int, profile, "События", "JMS")
+    Rel(artemis_int, msp, "События", "JMS")
+    Rel(artemis_int, lk, "События", "JMS")
+    Rel(artemis_int, tx, "События", "JMS")
+    
+    %% gRPC связи
+    Rel(tx, profile, "Проверка гражданина", "gRPC")
+    Rel(tx, msp, "Проверка меры поддержки", "gRPC")
+    Rel(tx, lk, "Проверка льготной категории", "gRPC")
+    
+    Rel(msp, profile, "Данные профиля", "gRPC")
+    Rel(lk, profile, "Данные профиля", "gRPC")
+    
+    %% Запись в мастер-базу
+    Rel(profile, pg_master, "Запись", "JDBC")
+    Rel(msp, pg_master, "Запись", "JDBC")
+    Rel(lk, pg_master, "Запись", "JDBC")
+    Rel(tx, pg_master, "Запись", "JDBC")
+    Rel(profile, redis, "Кэш", "Redis Protocol")
+    
+    %% Репликация и витрины
+    Rel(pg_master, pg_replica, "Репликация", "WAL Streaming")
+    Rel(airflow, pg_replica, "Чтение", "JDBC")
+    Rel(airflow, pg_dm, "Запись витрин", "JDBC")
+    Rel(report, pg_dm, "Чтение отчетов", "JDBC")
 ```
