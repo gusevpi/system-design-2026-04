@@ -21,15 +21,15 @@ C4Container
         }
         
         Container_Boundary(analytics, "Аналитика и отчетность") {
-            Container(airflow, "Apache Airflow", "Python", "ETL/ELT оркестратор для витрин")
-            Container(report, "Reporting Service", "Spring Boot + React", "Фронт отчетов (логин/пароль)")
+            Container(airflow, "Apache Airflow", "Python", "Оркестратор для витрин")
+            Container(report, "Reporting Service", "Spring Boot + PHP(Laravel)", "Фронт для отчетов")
         }
         
-        ContainerQueue(artemis_ext, "Artemis External", "Apache Artemis", "Изоляция внешних интеграций")
-        ContainerQueue(artemis_int, "Artemis Internal", "Apache Artemis", "Изоляция внутренних взаимодействий")
+        ContainerQueue(artemis_ext, "Artemis External queues", "Apache Artemis", "Изоляция внешних интеграций")
+        ContainerQueue(artemis_int, "Artemis Internal queues", "Apache Artemis", "Изоляция внутренних взаимодействий")
         
         ContainerDb(pg_master, "PostgreSQL 19 (Master)", "PostgreSQL", "Мастер-данные (OLTP)")
-        ContainerDb(pg_replica, "PostgreSQL 19 (Replica)", "PostgreSQL", "Реплика мастер-базы (1 нода)")
+        ContainerDb(pg_replica, "PostgreSQL 19 (Replica)", "PostgreSQL", "Реплика мастер-базы")
         ContainerDb(pg_dm, "PostgreSQL 19 (Data Marts)", "PostgreSQL", "Отдельная БД для витрин и отчетов")
         ContainerDb(redis, "Redis", "Redis", "Кэш профилей")
     }
